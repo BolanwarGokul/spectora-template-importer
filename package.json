@@ -26,6 +26,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/sanitize-html": "latest",
+    "prettier": "^3.9.9",
     "tsx": "latest",
     "typescript": "latest"
   }

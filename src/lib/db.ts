@@ -1,5 +1,5 @@
-import { createClient, type Client } from '@libsql/client';
-import { mkdirSync } from 'node:fs';
+import { createClient, type Client } from "@libsql/client";
+import { mkdirSync } from "node:fs";
 
 export const schema = `
 CREATE TABLE IF NOT EXISTS sources (
@@ -39,15 +39,20 @@ let client: Client | undefined;
 let initializing: Promise<void> | undefined;
 export async function database(): Promise<Client> {
   if (!client) {
-    const url = process.env.DATABASE_URL || 'file:data/templates.db';
-    if (process.env.VERCEL && url.startsWith('file:')) {
-      throw new Error('A remote DATABASE_URL is required on Vercel. Local files are not durable there.');
+    const url = process.env.DATABASE_URL || "file:data/templates.db";
+    if (process.env.VERCEL && url.startsWith("file:")) {
+      throw new Error(
+        "A remote DATABASE_URL is required on Vercel. Local files are not durable there.",
+      );
     }
-    if (url.startsWith('file:data/')) mkdirSync('data', { recursive: true });
+    if (url.startsWith("file:data/")) mkdirSync("data", { recursive: true });
     client = createClient({ url, authToken: process.env.DATABASE_AUTH_TOKEN });
   }
   const db = client;
-  initializing ??= db.executeMultiple(schema).catch(error => { initializing = undefined; throw error; });
+  initializing ??= db.executeMultiple(schema).catch((error) => {
+    initializing = undefined;
+    throw error;
+  });
   await initializing;
   return db;
 }

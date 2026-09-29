@@ -41,26 +41,20 @@ Opened **Templates → Upload → Spectora**.
 3. **Preserve hierarchy and categories:** The real editor demonstrates that descriptions, comment categories, private notes, and field types can carry meaning. Preserve any such information present in the export and explicitly distinguish unsupported values from values the export never contains.
 4. **Clear completion state:** Saving and background publication are separate operations. Our importer should show a durable completed/failed state and explain whether a template was actually committed to the database.
 
-## Spectora — pending authenticated exploration
+## Spectora — authenticated exploration
 
-Opened the official Spectora sign-in page. A separate authenticated Spectora session is still needed. The Hive password has not been reused for another service.
+The user completed trial signup and login. Opened the available **Residential Template**, whose editor lists 13 sections. Opened **Export to spreadsheet** and selected **Export HTML Text**. The export menu explicitly distinguishes preserving HTML from the plain-text option. Reached the generated page displaying **Your download is ready** and **Download File**.
 
-Required next steps:
-
-1. Sign in or complete a free trial.
-2. Load a shareable sample template, preferably InterNACHI Residential if available.
-3. Export using **Export to spreadsheet → Export HTML Text**.
-4. Save the original export in the repository with provenance.
-5. Try that file in Hive and record actual preservation, warnings, and failures.
+The in-app browser blocked the final spreadsheet download. The saved `export.htm` was inspected and is the intermediate HTML download page, not an Excel workbook. The user was asked to save the actual workbook from a regular browser. It has not yet been checked into `samples/`; the app's QA fixture is explicitly synthetic. Hive import with the genuine file and fidelity checks remain pending.
 
 ## Binsr
 
-Not explored yet. It is optional; prioritize required product access, a real input file, and the working importer baseline before deciding whether to spend time on comparison.
+Not explored. It is optional; time was focused on the required product access, input acquisition and importer baseline.
 
-## Proposed implementation direction — not implemented
+## Implementation informed by exploration
 
-- Deterministic import mapping based on the real export's observed schema; no model-generated customer content.
+- Deterministic import mapping based on Spectora's official spreadsheet column guide; actual-export validation is still pending. No model-generated customer content.
 - Structured database records for templates, sections, items, and comments, with stable ordering.
 - Retain source-cell content/metadata for auditability and explicitly report unsupported content.
-- A review step showing structural counts, rich-text previews, and actionable warnings is the proposed customer-focused improvement.
+- A review step showing structural counts, rich-text previews, and actionable warnings is the customer-focused improvement.
 - Verify the actual export plus synthetic edge cases, save/reopen persistence, independent copies, malformed input handling, and safe rich-content rendering.
