@@ -1,0 +1,32 @@
+{
+  "name": "spectora-template-importer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "db:init": "tsx scripts/init-db.ts",
+    "seed": "tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@libsql/client": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "sanitize-html": "latest",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/sanitize-html": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
