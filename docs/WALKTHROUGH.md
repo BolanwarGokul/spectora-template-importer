@@ -30,9 +30,9 @@ Hi Apoorv,
 
 Thank you for the opportunity. Here is my template importer submission:
 
-- Repository (including NOTES.md and the Spectora export): [insert verified repository link]
-- Live app: [insert verified Vercel URL]
-- Access: no login required; each browser receives its own sample workspace.
+- Repository (NOTES.md included; actual Spectora export must still be added): https://github.com/BolanwarGokul/spectora-template-importer
+- Live app: https://fieldnote-tau-steel.vercel.app/
+- Access: no login required; each browser has an independent workspace. [Finish and verify sample seeding before sending.]
 - Walkthrough: [insert accessible 8–10 minute video link]
 
 Best,

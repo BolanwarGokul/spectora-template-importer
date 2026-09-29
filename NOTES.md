@@ -37,7 +37,8 @@ An exact-string test exposed SheetJS 0.20.3 decoding XML entities twice for XLSX
 - Production Next.js build and TypeScript check pass.
 - Browser: uploaded the clearly labeled synthetic fixture; preview reported 4 sections, 8 items, 10 comments and 10 rows. Saved a comment title and rich HTML, reloaded, and observed the saved text. Opened the persisted workspace in a separate production server process. Renamed a section and item in a copy, then reopened the original and verified its names were unchanged. Uploaded the invalid-header fixture: an actionable error appeared and the template count stayed at two. Screenshots are in `docs/evidence/`. The real source regression remains pending.
 - Hosted Turso/libSQL persistence passed import, saved section edit, independent copy and exact source-byte checks using `scripts/verify-remote.ts`. This script creates isolated synthetic QA records and leaves reviewer workspaces untouched.
-- Genuine Spectora export verification and live app verification are **not yet complete**. `export.htm` downloaded in the session was the generated download webpage, not an Excel workbook. It is deliberately excluded from the repository.
+- The Vercel production app successfully previewed and imported the synthetic workbook, saved comment title/HTML changes, and retained them after reload against the hosted database. Duplicated through the public UI, renamed a section in the copy, and verified the original still used its unchanged name. Production environment variables are secret values; the first deployment's missing-database configuration was resolved by adding those variables and redeploying. See `docs/evidence/fieldnote-live.png`.
+- Genuine Spectora export verification and initial reviewer sample seeding are **not yet complete**. `export.htm` downloaded in the session was the generated download webpage, not an Excel workbook. It is deliberately excluded from the repository.
 
 ## Deliberate cuts
 

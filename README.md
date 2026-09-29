@@ -2,7 +2,9 @@
 
 A desktop workspace for importing inspection templates, reviewing what survived, editing comments, and making independent copies. Built for the Hive Inspect FDE assignment.
 
-**Submission status:** source is published on [GitHub](https://github.com/BolanwarGokul/spectora-template-importer), and the Turso database passed remote persistence checks. Vercel deployment configuration is in progress. The genuine Spectora spreadsheet and recorded walkthrough are still pending. Synthetic QA fixtures are explicitly labeled and are not the required Spectora export.
+**Live app:** [fieldnote-tau-steel.vercel.app](https://fieldnote-tau-steel.vercel.app/) · **Source:** [GitHub](https://github.com/BolanwarGokul/spectora-template-importer)
+
+**Submission status:** Vercel and the Turso database are configured; live upload, saved editing and reload persistence have been checked. The genuine Spectora spreadsheet and recorded walkthrough are still pending. Synthetic QA fixtures are explicitly labeled and are not the required Spectora export. A new browser currently opens an empty workspace until the real sample is added.
 
 ## Run locally
 
@@ -27,6 +29,8 @@ pnpm start
 Set `DATABASE_URL` to a hosted libSQL/Turso database URL and `DATABASE_AUTH_TOKEN` to its database token in Vercel's server environment. Neither is a `NEXT_PUBLIC_` variable. A local `file:` database is explicitly rejected on Vercel because its filesystem is not persistent application storage.
 
 Import this repository into Vercel as a Next.js project. Use `pnpm install --frozen-lockfile` and `pnpm build`, with Node.js 24. There is no additional build-time database dependency. On first API access, tables are created idempotently. Use a dedicated database for this demonstration.
+
+The current deployment was created with Vercel Drop from a Git archive because the GitHub provider connection did not complete in the browser. Git pushes do **not** currently trigger deployments. The deployed application source is commit `df9c6a4`; subsequent commits add verification scripts and documentation. Update through Vercel Drop/CLI or connect the repository before expecting automatic deployments. Production credentials are configured as secret environment variables.
 
 Put the genuine shareable HTML-text export in `samples/` before deployment. Each new browser workspace receives its own imported copy on first load. The `/api/demo` function includes sample files through Next.js output tracing. Synthetic fixtures are never seeded automatically.
 
