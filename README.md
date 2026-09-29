@@ -2,7 +2,7 @@
 
 A desktop workspace for importing inspection templates, reviewing what survived, editing comments, and making independent copies. Built for the Hive Inspect FDE assignment.
 
-**Submission status:** local implementation and production build work. The genuine Spectora spreadsheet, hosted database, GitHub publication, Vercel deployment, and recorded walkthrough are still pending. Synthetic QA fixtures are explicitly labeled and are not the required Spectora export.
+**Submission status:** source is published on [GitHub](https://github.com/BolanwarGokul/spectora-template-importer), and the Turso database passed remote persistence checks. Vercel deployment configuration is in progress. The genuine Spectora spreadsheet and recorded walkthrough are still pending. Synthetic QA fixtures are explicitly labeled and are not the required Spectora export.
 
 ## Run locally
 
