@@ -130,6 +130,34 @@ test("rejects unsupported files and a saved HTML download page", () => {
     /saved download page/,
   );
 });
+test("recognizes saved Spectora portal regardless of filename and offers only an official recovery link", () => {
+  const page = Buffer.from(
+    `<!DOCTYPE html><html><div href='/downloads/123456/download'>Download File</div></html>`,
+  );
+  for (const name of ["export.htm", "export.html", "renamed.xls"]) {
+    assert.throws(
+      () => parseSpectora(page, name),
+      (error: any) => {
+        assert.match(error.message, /saved Spectora’s download webpage/);
+        assert.equal(
+          error.recoveryUrl,
+          "https://app.spectora.com/downloads/123456",
+        );
+        return true;
+      },
+    );
+  }
+  const hostile = Buffer.from(
+    `<!DOCTYPE html><html><a href='https://attacker.example/downloads/123456/download'>Download File</a></html>`,
+  );
+  assert.throws(
+    () => parseSpectora(hostile, "export.htm"),
+    (error: any) => {
+      assert.equal(error.recoveryUrl, undefined);
+      return true;
+    },
+  );
+});
 test("rejects missing hierarchy instead of assigning comments to a guessed parent", () => {
   assert.throws(
     () =>

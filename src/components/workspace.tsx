@@ -46,7 +46,10 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
   const data = await res.json();
   if (!res.ok)
-    throw new Error(data.error || "Something went wrong. Please try again.");
+    throw Object.assign(
+      new Error(data.error || "Something went wrong. Please try again."),
+      { recoveryUrl: data.recoveryUrl },
+    );
   return data;
 }
 const number = (n: number) => n.toLocaleString();
@@ -993,6 +996,7 @@ function ImportDialog({
   onClose: () => void;
   onImported: (t: Template) => Promise<void>;
 }) {
+  const [recoveryUrl, setRecoveryUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null),
     [preview, setPreview] = useState<ImportResult | null>(null),
     [busy, setBusy] = useState(false),
@@ -1002,6 +1006,7 @@ function ImportDialog({
   async function choose(file: File | undefined) {
     if (!file) return;
     setError("");
+    setRecoveryUrl(null);
     setPreview(null);
     setFile(file);
     setBusy(true);
@@ -1016,6 +1021,9 @@ function ImportDialog({
       setName(data.name);
     } catch (e) {
       setError((e as Error).message);
+      const url = (e as Error & { recoveryUrl?: string }).recoveryUrl;
+      if (url && /^https:\/\/app\.spectora\.com\/downloads\/\d+$/.test(url))
+        setRecoveryUrl(url);
     } finally {
       setBusy(false);
     }
@@ -1083,7 +1091,7 @@ function ImportDialog({
           >
             <input
               type="file"
-              accept=".xls,.xlsx"
+              accept=".xls,.xlsx,.htm,.html"
               aria-label="Upload Spectora spreadsheet"
               disabled={busy}
               onChange={(e) => choose(e.target.files?.[0])}
@@ -1111,7 +1119,9 @@ function ImportDialog({
               <strong>Use “Export HTML Text” in Spectora.</strong>
               <br />
               This keeps your formatting and links. Plain-text exports cannot
-              recover formatting that has already been removed.
+              recover formatting that has already been removed. On the next
+              page, click “Download File” to get the Excel spreadsheet. Do not
+              use your browser’s “Save page” command.
             </p>
           </div>
         </>
@@ -1212,7 +1222,27 @@ function ImportDialog({
       {error && (
         <div role="alert" className="inline-error">
           <AlertTriangle size={18} />
-          <p>{error}</p>
+          <p>
+            {error}
+            {recoveryUrl && (
+              <>
+                <br />
+                <a
+                  href={recoveryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-link"
+                >
+                  Open Spectora download page <ArrowUpRight size={14} />
+                </a>
+                <br />
+                <small>
+                  If this browser blocks the download, open the same page in
+                  your regular browser. Sign in to Spectora if asked.
+                </small>
+              </>
+            )}
+          </p>
         </div>
       )}
       <footer className="modal-actions">

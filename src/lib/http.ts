@@ -42,7 +42,7 @@ export function requireSameOrigin(req: NextRequest) {
 export function failure(error: unknown) {
   if (error instanceof AppError)
     return NextResponse.json(
-      { error: error.message },
+      { error: error.message, recoveryUrl: error.recoveryUrl },
       { status: error.status },
     );
   console.error(

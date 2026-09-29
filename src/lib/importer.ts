@@ -75,6 +75,25 @@ function checkZipSize(bytes: Buffer) {
 }
 
 export function parseSpectora(bytes: Buffer, filename: string): ImportResult {
+  if (bytes.length > MAX_FILE_BYTES)
+    throw new AppError(
+      "This file exceeds the 4 MB upload limit. Export a smaller template.",
+      413,
+    );
+  // A browser's Save Page action saves the export portal, not its workbook.
+  // Never fetch uploaded URLs server-side or render the saved page's active HTML.
+  const page = bytes.subarray(0, 200000).toString("utf8");
+  if (/^\s*(?:<!doctype html|<html)/i.test(page)) {
+    const download = page.match(
+      /href\s*=\s*["'](?:https:\/\/app\.spectora\.com)?\/downloads\/(\d+)\/download["']/i,
+    );
+    if (download && /Download File/i.test(page))
+      throw new AppError(
+        "You saved Spectora’s download webpage, not the template spreadsheet. Open the download page below, click “Download File”, then upload the resulting .xls or .xlsx here. “Export HTML Text” preserves formatting inside Excel; it does not mean saving the webpage as .htm. Renaming this file will not convert it. No template was imported.",
+        400,
+        `https://app.spectora.com/downloads/${download[1]}`,
+      );
+  }
   if (!/\.(xlsx|xls)$/i.test(filename))
     throw new AppError(
       "Choose a Spectora .xls or .xlsx spreadsheet exported with “Export HTML Text”. CSV, PDF, and web pages are not supported.",
@@ -274,15 +293,13 @@ export function parseSpectora(bytes: Buffer, filename: string): ImportResult {
       item.comments.push(comment);
       result.stats.comments++;
       const order = value(row, "order (w/i item)");
-      itemOrders
-        .get(item.id)!
-        .push({
-          comment,
-          order:
-            order.trim() !== "" && Number.isFinite(Number(order))
-              ? Number(order)
-              : null,
-        });
+      itemOrders.get(item.id)!.push({
+        comment,
+        order:
+          order.trim() !== "" && Number.isFinite(Number(order))
+            ? Number(order)
+            : null,
+      });
     }
     for (const section of sectionsByName.values())
       for (const item of section.items) {
