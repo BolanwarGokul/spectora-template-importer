@@ -39,6 +39,7 @@ An exact-string test exposed SheetJS 0.20.3 decoding XML entities twice for XLSX
 - Hosted Turso/libSQL persistence passed import, saved section edit, independent copy and exact source-byte checks using `scripts/verify-remote.ts`. This script creates isolated synthetic QA records and leaves reviewer workspaces untouched.
 - The Vercel production app successfully previewed and imported the synthetic workbook, saved comment title/HTML changes, and retained them after reload against the hosted database. Duplicated through the public UI, renamed a section in the copy, and verified the original still used its unchanged name. Production environment variables are secret values; the first deployment's missing-database configuration was resolved by adding those variables and redeploying. See `docs/evidence/fieldnote-live.png`.
 - Genuine Spectora export verification and initial reviewer sample seeding are **not yet complete**. `export.htm` downloaded in the session was the generated download webpage, not an Excel workbook. It is deliberately excluded from the repository.
+- On 30 September 2026, deployed the recovery fix to production with Vercel CLI and verified the actual `export.htm` through the public app: it showed the explanatory error and official Spectora download-page link, with no template imported. Existing synthetic templates and saved edits remained available after deployment. See `docs/evidence/saved-page-recovery-live.png`.
 
 ## Deliberate cuts
 
